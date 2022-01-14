@@ -19,5 +19,11 @@
   "bugs": {
     "url": "https://github.com/ObothA/swapi/issues"
   },
-  "homepage": "https://github.com/ObothA/swapi#readme"
+  "homepage": "https://github.com/ObothA/swapi#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "typescript": "^4.5.4"
+  }
 }
