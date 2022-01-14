@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ObothA/swapi/issues"
   },
-  "homepage": "https://github.com/ObothA/swapi#readme"
+  "homepage": "https://github.com/ObothA/swapi#readme",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
 }
