@@ -7,6 +7,9 @@ import morgan from 'morgan';
 
 import errorHandler from './middleware/error';
 
+// Routes
+import moviesRoute from './routes/movies';
+
 const app = express();
 
 // JSON parser
@@ -33,6 +36,9 @@ app.use(cors());
 
 // Prevent http param pollution
 app.use(hpp());
+
+/** Mount Routers */
+app.use('/api/1.0/movies', moviesRoute);
 
 app.use(errorHandler);
 
