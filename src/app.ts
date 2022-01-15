@@ -9,6 +9,7 @@ import errorHandler from './middleware/error';
 
 // Routes
 import moviesRoute from './routes/movies';
+import movieCharactersRoute from './routes/movieCharacters';
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(hpp());
 
 /** Mount Routers */
 app.use('/api/1.0/movies', moviesRoute);
+app.use('/api/1.0/movie-characters', movieCharactersRoute);
 
 app.use(errorHandler);
 
