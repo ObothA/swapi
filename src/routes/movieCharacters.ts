@@ -9,7 +9,11 @@ import { getMovieCharacters } from '../controllers/movieCharacters';
 const router = Router();
 
 const sanitizeSortQuery: CustomSanitizer = (value: string) => {
-  if (value.toLowerCase() === 'name') {
+  if (
+    value.toLowerCase() === 'name' ||
+    value.toLowerCase() === 'gender' ||
+    value.toLowerCase() === 'height'
+  ) {
     return value.toLowerCase();
   }
 
@@ -24,10 +28,19 @@ const sanitizeSortOrderQuery: CustomSanitizer = (value: string) => {
   throw new ErrorResponse(`${value} is not a correct sort-order query. It's either asc or dsc.`);
 };
 
+const sanitizeGenderQuery: CustomSanitizer = (value: string) => {
+  if (value.toLowerCase() === 'male' || value.toLowerCase() === 'female') {
+    return value.toLowerCase();
+  }
+
+  throw new ErrorResponse(`${value} is not a correct gender query. It's either female or male.`);
+};
+
 router.get(
   '/:movieID',
   query('sort').customSanitizer(sanitizeSortQuery).optional(),
   query('sort_order').customSanitizer(sanitizeSortOrderQuery).optional(),
+  query('gender').customSanitizer(sanitizeGenderQuery).optional(),
   expressValidatorHandler,
   asyncHandler(getMovieCharacters)
 );
