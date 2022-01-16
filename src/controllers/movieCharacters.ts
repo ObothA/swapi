@@ -6,6 +6,7 @@ import ErrorResponse from '../utils/errorResponse';
 
 type Character = {
   gender: string;
+  height: string;
 };
 
 const getCharacters = async (id: string) => {
@@ -55,16 +56,19 @@ export const getMovieCharacters: RequestHandler = async (req, res, next) => {
     return temp;
   });
 
-  // add express validator to validate inputs from query params
-  // checkout lodash
-  // req.query.firstName
-  // filter values
-  // sort values
-  // gender
-  // delete these comments
-
   let data = filterByGender(charactersData, gender as string);
   data = sortCharacters(data, sort as string, sort_order as string);
 
-  res.send(data);
+  const reducer = (previousValue: number, currentValue: number) => previousValue + currentValue;
+  const sumOfHeights = data.map((dataItem) => +dataItem.height).reduce(reducer);
+
+  res.send({
+    data,
+    meta_data: {
+      numberOfCharacters: data.length,
+      sumOfHeights: {
+        cm: `${sumOfHeights} cm`,
+      },
+    },
+  });
 };
