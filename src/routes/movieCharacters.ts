@@ -10,7 +10,7 @@ const router = Router();
 
 const sanitizeSortQuery: CustomSanitizer = (value: string) => {
   if (value.toLowerCase() === 'name') {
-    return true;
+    return value.toLowerCase();
   }
 
   throw new ErrorResponse(`${value} is not a correct sort query. It's either name, gender or height.`);
@@ -18,7 +18,7 @@ const sanitizeSortQuery: CustomSanitizer = (value: string) => {
 
 const sanitizeSortOrderQuery: CustomSanitizer = (value: string) => {
   if (value.toLowerCase() === 'asc' || value.toLowerCase() === 'dsc') {
-    return true;
+    return value.toLowerCase();
   }
 
   throw new ErrorResponse(`${value} is not a correct sort-order query. It's either asc or dsc.`);
@@ -27,7 +27,7 @@ const sanitizeSortOrderQuery: CustomSanitizer = (value: string) => {
 router.get(
   '/:movieID',
   query('sort').customSanitizer(sanitizeSortQuery).optional(),
-  query('sort-order').customSanitizer(sanitizeSortOrderQuery).optional(),
+  query('sort_order').customSanitizer(sanitizeSortOrderQuery).optional(),
   expressValidatorHandler,
   asyncHandler(getMovieCharacters)
 );

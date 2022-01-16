@@ -9,6 +9,7 @@ const getCharacters = async (id: string) => {
 
 export const getMovieCharacters: RequestHandler = async (req, res) => {
   const { movieID } = req.params;
+  const { sort, sort_order } = req.query;
 
   const characters = await getCharacters(movieID);
 
@@ -29,9 +30,8 @@ export const getMovieCharacters: RequestHandler = async (req, res) => {
   // add express validator to validate inputs from query params
   // checkout lodash
   // req.query.firstName
-  // validate req.params too
-  // sort values
   // filter values
+  // sort values
   // Add link to movies for 1 movie
   // delete these comments
 
