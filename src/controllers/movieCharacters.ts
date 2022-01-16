@@ -26,5 +26,14 @@ export const getMovieCharacters: RequestHandler = async (req, res) => {
     return temp;
   });
 
+  // add express validator to validate inputs from query params
+  // checkout lodash
+  // req.query.firstName
+  // validate req.params too
+  // sort values
+  // filter values
+  // Add link to movies for 1 movie
+  // delete these comments
+
   res.send(charactersData);
 };
