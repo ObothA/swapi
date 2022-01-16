@@ -1,5 +1,8 @@
 import { RequestHandler } from 'express';
 import axios from 'axios';
+import lodash from 'lodash';
+
+import ErrorResponse from '../utils/errorResponse';
 
 type Character = {
   gender: string;
@@ -20,9 +23,21 @@ const filterByGender = (characters: Character[], gender: string) => {
   return characters;
 };
 
-export const getMovieCharacters: RequestHandler = async (req, res) => {
+const sortCharacters = (characters: Character[], sortParameter: string, sortOrder: string) => {
+  if (sortOrder === 'dsc') {
+    return lodash.sortBy(characters, [sortParameter]).reverse();
+  }
+
+  return lodash.sortBy(characters, [sortParameter]);
+};
+
+export const getMovieCharacters: RequestHandler = async (req, res, next) => {
   const { movieID } = req.params;
   const { sort, sort_order, gender } = req.query;
+
+  if (sort_order && !sort) {
+    return next(new ErrorResponse('In order to use sort_order, you need to supply the sort query too.'));
+  }
 
   const characters = await getCharacters(movieID);
 
@@ -48,7 +63,8 @@ export const getMovieCharacters: RequestHandler = async (req, res) => {
   // gender
   // delete these comments
 
-  const data = filterByGender(charactersData, gender as string);
+  let data = filterByGender(charactersData, gender as string);
+  data = sortCharacters(data, sort as string, sort_order as string);
 
   res.send(data);
 };
