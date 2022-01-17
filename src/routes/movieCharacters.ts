@@ -17,7 +17,10 @@ const sanitizeSortQuery: CustomSanitizer = (value: string) => {
     return value.toLowerCase();
   }
 
-  throw new ErrorResponse(`${value} is not a correct sort query. It's either name, gender or height.`);
+  throw new ErrorResponse(
+    `${value} is not a correct sort query. It's either name, gender or height.`,
+    422
+  );
 };
 
 const sanitizeSortOrderQuery: CustomSanitizer = (value: string) => {
@@ -25,7 +28,7 @@ const sanitizeSortOrderQuery: CustomSanitizer = (value: string) => {
     return value.toLowerCase();
   }
 
-  throw new ErrorResponse(`${value} is not a correct sort-order query. It's either asc or dsc.`);
+  throw new ErrorResponse(`${value} is not a correct sort-order query. It's either asc or dsc.`, 422);
 };
 
 const sanitizeGenderQuery: CustomSanitizer = (value: string) => {
@@ -33,7 +36,7 @@ const sanitizeGenderQuery: CustomSanitizer = (value: string) => {
     return value.toLowerCase();
   }
 
-  throw new ErrorResponse(`${value} is not a correct gender query. It's either female or male.`);
+  throw new ErrorResponse(`${value} is not a correct gender query. It's either female or male.`, 422);
 };
 
 router.get(
