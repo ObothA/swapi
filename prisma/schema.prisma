@@ -1,0 +1,14 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model comments {
+  id       Int     @id @default(autoincrement())
+  movie_id String  @db.VarChar(255)
+  comment  String? @db.VarChar(255)
+}
