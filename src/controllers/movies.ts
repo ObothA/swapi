@@ -66,6 +66,7 @@ export const getMovie: RequestHandler = async (req, res, next) => {
       opening_crawl: rawMovie?.properties?.opening_crawl,
       release_date: rawMovie?.properties?.release_date,
       number_of_comments: movieCommentsResponse.length,
+      comments_url: `/comments?movie_id=${rawMovie?.uid}`,
     };
 
     res.send(movie);
