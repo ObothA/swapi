@@ -18,3 +18,19 @@ export const addComment: RequestHandler = async (req, res) => {
     data: newComment,
   });
 };
+
+export const getMovieComments: RequestHandler = async (req, res) => {
+  const { movie_id } = req.query;
+
+  const movieComments = await prisma.comments.findMany({
+    where: {
+      movie_id: movie_id as string,
+    },
+  });
+
+  res.send({
+    success: true,
+    count: movieComments.length,
+    data: movieComments,
+  });
+};

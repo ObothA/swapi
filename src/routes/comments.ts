@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { check, CustomSanitizer } from 'express-validator';
+import { check, CustomSanitizer, query } from 'express-validator';
 
 import asyncHandler from '../middleware/async';
 import ErrorResponse from '../utils/errorResponse';
 import expressValidatorHandler from '../middleware/expressValidatorHandler';
-import { addComment } from '../controllers/comments';
+import { addComment, getMovieComments } from '../controllers/comments';
 
 const router = Router();
 
@@ -26,6 +26,13 @@ router.post(
   check('comment').notEmpty().withMessage('Please provide a comment'),
   expressValidatorHandler,
   asyncHandler(addComment)
+);
+
+router.get(
+  '/',
+  query('movie_id').notEmpty().withMessage('Please provide the `movie_id` query parameter.'),
+  expressValidatorHandler,
+  asyncHandler(getMovieComments)
 );
 
 export default router;
