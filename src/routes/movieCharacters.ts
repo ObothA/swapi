@@ -40,8 +40,9 @@ const sanitizeGenderQuery: CustomSanitizer = (value: string) => {
 };
 
 router.get(
-  '/:movieID',
+  '/',
   query('sort').customSanitizer(sanitizeSortQuery).optional(),
+  query('movie_id').notEmpty(),
   query('sort_order').customSanitizer(sanitizeSortOrderQuery).optional(),
   query('gender').customSanitizer(sanitizeGenderQuery).optional(),
   expressValidatorHandler,
