@@ -48,7 +48,15 @@ export const getMovies: RequestHandler = async (req, res, next) => {
 export const getMovie: RequestHandler = async (req, res, next) => {
   const { id } = req.params;
 
-  const movieResponse = await axios.get(`${process?.env?.SWAPI_URL}/films/${id}`);
+  const moviePromise = await axios.get(`${process?.env?.SWAPI_URL}/films/${id}`);
+  const movieCommentsPromise = prisma.comments.findMany({
+    where: {
+      movie_id: id,
+    },
+  });
+
+  const [movieResponse, movieCommentsResponse] = await Promise.all([moviePromise, movieCommentsPromise]);
+
   const rawMovie: Film = movieResponse?.data?.result;
 
   if (rawMovie) {
@@ -57,6 +65,7 @@ export const getMovie: RequestHandler = async (req, res, next) => {
       title: rawMovie?.properties?.title,
       opening_crawl: rawMovie?.properties?.opening_crawl,
       release_date: rawMovie?.properties?.release_date,
+      number_of_comments: movieCommentsResponse.length,
     };
 
     res.send(movie);
