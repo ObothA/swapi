@@ -3,6 +3,7 @@ import axios from 'axios';
 import lodash from 'lodash';
 
 import ErrorResponse from '../utils/errorResponse';
+import toFeetAndInches from '../utils/centimetersToFeetAndInches';
 
 type Character = {
   gender: string;
@@ -60,13 +61,6 @@ export const getMovieCharacters: RequestHandler = async (req, res, next) => {
 
   const reducer = (previousValue: number, currentValue: number) => previousValue + currentValue;
   const sumOfHeights = data.map((dataItem) => +dataItem.height).reduce(reducer);
-
-  function toFeetAndInches(num: number) {
-    const realFeet = (num * 0.3937) / 12;
-    const feet = Math.floor(realFeet);
-    const inches = (realFeet - feet) * 12;
-    return `${feet} ft & ${inches.toFixed(2)} inches`;
-  }
 
   res.send({
     data,

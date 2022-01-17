@@ -39,6 +39,21 @@ export const getMovies: RequestHandler = async (req, res, next) => {
       url: `/movies/${film?.uid}`,
     }));
 
+    const compare = (a: Movie, b: Movie) => {
+      if (new Date(a.release_date).getTime() < new Date(b.release_date).getTime()) {
+        return -1;
+      }
+
+      if (new Date(a.release_date).getTime() > new Date(b.release_date).getTime()) {
+        return 1;
+      }
+
+      return 0;
+    };
+
+    /** Sort in ascending order */
+    movies.sort(compare);
+
     res.send(movies);
   } else {
     return next(new ErrorResponse('No movies were returned from the SWAPI API'));
