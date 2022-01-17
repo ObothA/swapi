@@ -2,12 +2,14 @@ import { RequestHandler } from 'express';
 import axios from 'axios';
 
 import ErrorResponse from '../utils/errorResponse';
+import prisma from '../config/client';
 
 type Movie = {
   title: string;
   string: string;
   release_date: string;
   opening_crawl: string;
+  number_of_comments: string;
 };
 
 type Film = {
@@ -20,7 +22,11 @@ type Film = {
 };
 
 export const getMovies: RequestHandler = async (req, res, next) => {
-  const movieResponse = await axios.get(`${process?.env?.SWAPI_URL}/films`);
+  const movieListPromise = axios.get(`${process?.env?.SWAPI_URL}/films`);
+  const movieCommentsPromise = prisma.comments.findMany();
+
+  const [movieResponse, movieComments] = await Promise.all([movieListPromise, movieCommentsPromise]);
+
   const rawMovies = movieResponse?.data?.result;
 
   if (rawMovies) {
@@ -29,6 +35,7 @@ export const getMovies: RequestHandler = async (req, res, next) => {
       title: film?.properties?.title,
       opening_crawl: film?.properties?.opening_crawl,
       release_date: film?.properties?.release_date,
+      number_of_comments: movieComments.filter((comment) => comment?.movie_id === film?.uid).length,
       url: `/movies/${film?.uid}`,
     }));
 
