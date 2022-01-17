@@ -3,6 +3,7 @@ import axios from 'axios';
 import lodash from 'lodash';
 
 import ErrorResponse from '../utils/errorResponse';
+import toFeetAndInches from '../utils/centimetersToFeetAndInches';
 
 type Character = {
   gender: string;
@@ -33,14 +34,13 @@ const sortCharacters = (characters: Character[], sortParameter: string, sortOrde
 };
 
 export const getMovieCharacters: RequestHandler = async (req, res, next) => {
-  const { movieID } = req.params;
-  const { sort, sort_order, gender } = req.query;
+  const { sort, sort_order, gender, movie_id } = req.query;
 
   if (sort_order && !sort) {
     return next(new ErrorResponse('In order to use sort_order, you need to supply the sort query too.'));
   }
 
-  const characters = await getCharacters(movieID);
+  const characters = await getCharacters(movie_id as string);
 
   const characterPromisesArray = characters.map((singleCharacter: string) => axios.get(singleCharacter));
 
@@ -61,13 +61,6 @@ export const getMovieCharacters: RequestHandler = async (req, res, next) => {
 
   const reducer = (previousValue: number, currentValue: number) => previousValue + currentValue;
   const sumOfHeights = data.map((dataItem) => +dataItem.height).reduce(reducer);
-
-  function toFeetAndInches(num: number) {
-    const realFeet = (num * 0.3937) / 12;
-    const feet = Math.floor(realFeet);
-    const inches = (realFeet - feet) * 12;
-    return `${feet} ft & ${inches.toFixed(2)} inches`;
-  }
 
   res.send({
     data,
