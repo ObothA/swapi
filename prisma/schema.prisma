@@ -10,5 +10,7 @@ datasource db {
 model comments {
   id       Int     @id @default(autoincrement())
   movie_id String  @db.VarChar(255)
-  comment  String? @db.VarChar(255)
+  comment  String @db.VarChar(500)
+  public_ipv6_address String @db.VarChar(255)
+  created_at String @db.VarChar(255)
 }

@@ -9,6 +9,8 @@ export const addComment: RequestHandler = async (req, res) => {
     data: {
       movie_id: movieId,
       comment,
+      created_at: new Date().toUTCString(),
+      public_ipv6_address: req.ip,
     },
   });
 
@@ -26,6 +28,7 @@ export const getMovieComments: RequestHandler = async (req, res) => {
     where: {
       movie_id: movie_id as string,
     },
+    orderBy: [{ id: 'desc' }],
   });
 
   res.send({

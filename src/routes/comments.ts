@@ -16,6 +16,14 @@ const sanitizeMovieId: CustomSanitizer = (value: string) => {
   throw new ErrorResponse('movieId should be a string', 422);
 };
 
+const sanitizeComment: CustomSanitizer = (value: string) => {
+  if (value.length <= 500) {
+    return value;
+  }
+
+  throw new ErrorResponse('A comment should be 500 characters or less.', 422);
+};
+
 router.post(
   '/',
   check('movieId')
@@ -23,7 +31,11 @@ router.post(
     .withMessage('Please provide a movie i.d')
     .bail()
     .customSanitizer(sanitizeMovieId),
-  check('comment').notEmpty().withMessage('Please provide a comment'),
+  check('comment')
+    .notEmpty()
+    .withMessage('Please provide a comment')
+    .bail()
+    .customSanitizer(sanitizeComment),
   expressValidatorHandler,
   asyncHandler(addComment)
 );
