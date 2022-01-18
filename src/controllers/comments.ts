@@ -28,6 +28,7 @@ export const getMovieComments: RequestHandler = async (req, res) => {
     where: {
       movie_id: movie_id as string,
     },
+    orderBy: [{ id: 'desc' }],
   });
 
   res.send({
