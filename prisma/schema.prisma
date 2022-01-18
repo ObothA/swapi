@@ -11,6 +11,6 @@ model comments {
   id       Int     @id @default(autoincrement())
   movie_id String  @db.VarChar(255)
   comment  String @db.VarChar(255)
-  public_ip_address String @db.VarChar(255)
-  create_at DateTime @db.DateTime()
+  public_ipv6_address String @db.VarChar(255)
+  created_at String @db.VarChar(255)
 }

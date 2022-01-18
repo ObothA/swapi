@@ -9,6 +9,8 @@ export const addComment: RequestHandler = async (req, res) => {
     data: {
       movie_id: movieId,
       comment,
+      created_at: new Date().toUTCString(),
+      public_ipv6_address: req.ip,
     },
   });
 
