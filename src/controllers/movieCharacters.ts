@@ -37,7 +37,9 @@ export const getMovieCharacters: RequestHandler = async (req, res, next) => {
   const { sort, sort_order, gender, movie_id } = req.query;
 
   if (sort_order && !sort) {
-    return next(new ErrorResponse('In order to use sort_order, you need to supply the sort query too.'));
+    return next(
+      new ErrorResponse('In order to use sort_order, you need to supply the sort query too.', 422)
+    );
   }
 
   const characters = await getCharacters(movie_id as string);
