@@ -28,3 +28,6 @@ Follow these steps to run:
   DATABASE_URL=""  
   `DATABASE_URL` should be a connection string to a MySQL database, preferably with the planet scale database provider. But any other MySQL database should work as well.
 - Press F1, search and select `Remote-Containers:Reopen in Container` and it will run in a docker container.
+- execute `npm run build:dev` in one terminal and `npm run dev`
+  in another.
+- enjoy.
